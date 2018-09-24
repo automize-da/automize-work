@@ -26,6 +26,29 @@ class Crawler(object):
             print(e, e.args)
             return ''
     
+    def getContentByCss(self, css):
+        try:
+            elem = self.browser.find_element_by_css_selector(css)
+            time.sleep(5)
+            return elem
+        except Exception as e:
+            self.browser.quit()
+            print(e, e.args)
+            return 'Css Selector was not founded'
+    
+    def searchInput(self, css, key):
+        searchElem = self.browser.find_element_by_css_selector(css)
+        
+        try:
+            search = searchElem.send_keys(key)
+            time.sleep(3)
+            search.submit()
+    
+        except Exception as e:
+            self.browser.quit()
+            print(e, e.args)
+            return 'Search not completed'
+        
     def shutDown(self):
         return self.browser.quit()
 
@@ -34,5 +57,9 @@ if __name__ == '__main__':
     content = Crawler()
     content.startBrowser()
     time.sleep(5)
-    content.getContent('https://www.google.com')
-    content.shutDown()
+    content.getContent('http://google.com')
+    #content.shutDown()
+    #cssClick = content.getContentByCss('.main > div:nth-child(1) > ul:nth-child(18) > li:nth-child(2) > a:nth-child(1)')
+    #cssClick.click()
+    dosearch = content.searchInput('.gLFyf', 'hanna')
+    
